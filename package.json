@@ -1,5 +1,5 @@
 {
-  "name": "registration-feature",
+  "name": "dating-app-registration",
   "version": "1.0.0",
   "description": "This is a registration feature that can be used for dating applications.",
   "keywords": [
@@ -7,15 +7,15 @@
     "dating",
     "form"
   ],
-  "homepage": "https://github.com/lennartdeknikker/pt-course-18-19/",
+  "homepage": "https://github.com/lennartdeknikker/dating-app-registration",
   "bugs": {
-    "url": "https://github.com/lennartdeknikker/pt-course-18-19/issues"
+    "url": "https://github.com/lennartdeknikker/dating-app-registration/issues"
   },
   "license": "MIT",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lennartdeknikker/pt-course-18-19"
+    "url": "https://github.com/lennartdeknikker/dating-app-registration"
   },
   "scripts": {
     "start": "nodemon ./index.js localhost 8080",
