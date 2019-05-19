@@ -1,0 +1,159 @@
+html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+}
+
+body {
+    background-color: #d0006f;
+    border: 1px solid black;
+    margin: 0;
+    max-width: 30em;
+    display: grid;
+    grid-template-areas:
+    "header"
+    "activities"
+    "main"
+    "footer";
+    grid-template-rows: 4em .1fr 7fr 8em;
+    height: 100%;
+    font-family: Neutraface Display;
+}
+
+header {
+    background-color: #424242;
+    grid-area: header;
+}
+
+nav {
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 1em;
+    width: 100%;
+}
+
+nav img {
+    width: 2.5em;
+}
+
+nav a:nth-child(2) img {
+    width: 7.5em;
+}
+
+.activities {
+    align-items: center;
+    grid-area: activities;
+    background-color: #e4e4e4;
+    display: flex;
+    box-sizing: border-box;
+    padding: .5em 1em;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+h1 {
+    font-size: 1em;
+    font-weight: normal;
+    text-align: center;
+    width: 100%;
+    margin: 0 0 .5em;
+    height: 1em;
+}
+
+.activity-icons {
+    display: flex;
+    align-items: center;
+}
+
+.activity-icons img {
+    width: 2.5em;
+}
+
+.activities button {
+    background-color: #424242;
+    border: 1.5px solid #d0006f;
+    width: 2.5em;
+    border-radius: 100%;
+    height: 2.5em;
+    padding: 0;
+    color: white;
+}
+
+.activities button img {
+    width: 100%;
+}
+
+main {
+    grid-area: main;
+    box-sizing: border-box;
+    padding: .5em 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.images {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.more-photos {
+    background: url('images/more_photos.png');
+    background-position: center;
+    background-size: contain;
+    width: 17%;
+    margin-right: 3%;
+}
+
+.about {
+    background: url('images/about.png');
+    background-position: center;
+    background-size: contain;
+    width: 17%;
+    margin-left: 3%;
+}
+
+.images img {
+    width: 60%;
+    height: 100%;
+}
+
+.info {
+    background-color: #842457;
+    align-items: center;
+    color: white;
+    display: flex;
+    box-sizing: border-box;
+    padding: .5em 1em;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+footer {
+    grid-area: footer;
+    display: flex;
+    justify-content: space-between;
+}
+
+footer button {
+    background-color: transparent;
+    width: 50%;
+    border: none;
+    height: 100%;
+    margin: 0;
+}
+
+footer img {
+    width: 50%;
+}
+
+img {
+    width:  1em;
+}
+
