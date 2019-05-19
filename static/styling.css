@@ -26,6 +26,10 @@ header {
     grid-area: header;
 }
 
+h1 {
+    color: white;
+}
+
 nav {
     display: flex;
     height: 100%;
@@ -55,8 +59,8 @@ nav a:nth-child(2) img {
     justify-content: space-between;
 }
 
-h1 {
-    font-size: 1em;
+h2 {
+    font-size: 1.5em;
     font-weight: normal;
     text-align: center;
     width: 100%;
@@ -96,6 +100,10 @@ main {
     justify-content: space-between;
 }
 
+.grey-section {
+    background-color: #e4e4e4
+}
+
 .images {
     width: 100%;
     padding: 0;
@@ -133,6 +141,7 @@ main {
     padding: .5em 1em;
     flex-wrap: wrap;
     justify-content: space-between;
+    font-size: 1.2em;
 }
 
 footer {
@@ -141,12 +150,34 @@ footer {
     justify-content: space-between;
 }
 
-footer button {
+.single-button {
+    justify-content: center; 
+    background-color: #d0006f;
+}
+
+footer button, footer a {
     background-color: transparent;
     width: 50%;
     border: none;
     height: 100%;
     margin: 0;
+}
+
+footer a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+footer a span {
+    font-family: Neutraface Display;
+    font-weight: bold;
+    display: block;
+    color: white;
+    font-size: 1.5em;
+    padding: 0 1.5em;
+    text-align: center;
 }
 
 footer img {
@@ -156,4 +187,3 @@ footer img {
 img {
     width:  1em;
 }
-
