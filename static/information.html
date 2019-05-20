@@ -18,8 +18,7 @@
             <h1>Change / Add Information</h1>
         </nav>
     </header>
-    <main>
-
+    <main class="main-information">
         <form action="/form-handler" method="POST">
             <fieldset>
                 <h2>My Info</h2>
@@ -33,7 +32,8 @@
                 </div>
                 <div>
                     <label for="introduction">My Introduction</label>
-                    <textarea name="introduction" id="introduction">In my experience conversations in dating apps are really superficial. It’s too easy to forget to answer for a day or two or just lose interest when someone doesn’t answer right away. Because of that it’s not always easy to go from starting a conversation to planning a date, but there’s even more obstacles. People don’t always live in the same city and they’re not always available.</textarea>
+                    <textarea name="introduction" id="introduction"
+                        rows="2">In my experience conversations in dating apps are really superficial. It’s too easy to forget to answer for a day or two or just lose interest when someone doesn’t answer right away. Because of that it’s not always easy to go from starting a conversation to planning a date, but there’s even more obstacles. People don’t always live in the same city and they’re not always available.</textarea>
                 </div>
             </fieldset>
             <fieldset>
@@ -72,32 +72,31 @@
             <fieldset>
                 <h2>My favorite animal</h2>
                 <div>
-                    <input type="radio" name="animal" id="dog">
-                    <label for="dog">Dog</label>
                     <div>
-                        <label for="dog_breed" title="Breed of dog">Breed:</label>
-                        <input type="text" name="dog_breed" id="dog_breed">
+                        <input type="radio" name="animal" id="dog">
+                        <label for="dog">Dog</label>
                     </div>
                 </div>
                 <div>
-                    <input type="radio" name="animal" id="cat">
-                    <label for="cat">Cat</label>
+                    <label for="dog_breed" title="Breed of dog">Breed:</label>
+                    <input type="text" name="dog_breed" id="dog_breed">
+                </div>
+                <div>
                     <div>
-                        <label for="cat_breed" title="Breed of cat">Breed:</label>
-                        <input type="text" name="cat_breed" id="cat_breed">
+                        <input type="radio" name="animal" id="cat">
+                        <label for="cat">Cat</label>
                     </div>
                 </div>
+                <div>
+                    <label for="cat_breed" title="Breed of cat">Breed:</label>
+                    <input type="text" name="cat_breed" id="cat_breed">
+                </div>
             </fieldset>
-            <fieldset>
-                <button type="submit" value="submit">Save</button>
+            <fieldset class="fieldset-save">
+                <button type="submit" value="submit" class="save-button">Save</button>
             </fieldset>
         </form>
     </main>
-    <footer class="single-button">
-        <a href="interests.html">
-            <span>Save</span>
-        </a>
-    </footer>
 </body>
 
 </html>
