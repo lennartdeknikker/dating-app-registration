@@ -1,18 +1,18 @@
-<form action="/form-handler" method="POST">
+<form action="/information" method="POST">
     <fieldset>
         <h2>My Info</h2>
         <div>
             <label for="name">My Name</label>
-            <input type="text" name="name" id="name">
+            <input type="text" name="name" id="name" required>
         </div>
         <div>
             <label for="birthday">My Birthday</label>
-            <input type="text" name="birthday" id="birthday" value="dd/mm/yyyy">
+            <input type="text" name="birthday" id="birthday" value="dd/mm/yyyy" required>
         </div>
         <div>
             <label for="introduction">My Introduction</label>
             <textarea name="introduction" id="introduction"
-                rows="2">In my experience conversations in dating apps are really superficial. It’s too easy to forget to answer for a day or two or just lose interest when someone doesn’t answer right away. Because of that it’s not always easy to go from starting a conversation to planning a date, but there’s even more obstacles. People don’t always live in the same city and they’re not always available.</textarea>
+                rows="2" required>In my experience conversations in dating apps are really superficial. It’s too easy to forget to answer for a day or two or just lose interest when someone doesn’t answer right away. Because of that it’s not always easy to go from starting a conversation to planning a date, but there’s even more obstacles. People don’t always live in the same city and they’re not always available.</textarea>
         </div>
     </fieldset>
     <fieldset>
