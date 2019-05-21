@@ -7,7 +7,6 @@ html {
 
 body {
     background-color: #d0006f;
-    border: 1px solid black;
     margin: 0;
     max-width: 30em;
     display: grid;
@@ -219,8 +218,13 @@ input, select, textarea {
     margin: 0 0 .4em;
     padding: .2em;
     font-family: Neutraface Display;
-    font-size: 1em;
+    font-size: 1.1em;
     border: none;
+    height: 1.5em;
+}
+
+textarea {
+    height: 4em;
 }
 
 .save-button {    
