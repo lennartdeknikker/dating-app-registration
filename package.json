@@ -18,7 +18,7 @@
     "url": "https://github.com/lennartdeknikker/dating-app-registration"
   },
   "scripts": {
-    "start": "nodemon ./index.js localhost 8080",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

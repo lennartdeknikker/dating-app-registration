@@ -11,15 +11,17 @@ var data = [{
     music: 'Love it',
     movies: 'Neutral',
     books: 'Like it',
-    animal: 'Cat',
+    animal: 'cat',
     dogBreed: 'Golden Retriever',
     catBreed: undefined
 }];
+
 var idCounter = 0;
 
 express()
     .set('view engine', 'ejs')
     .use(express.static(__dirname + '/static'))
+    .use(bodyParser.json())
     .use(bodyParser.urlencoded({
         extended: true
     }))
@@ -62,7 +64,7 @@ function information(req, res) {
 function change(req, res) {
     var name = slug(req.body.name);
     data[0] = req.body;
-    data[0].id = idCounter++;
+    data[0].id = String(idCounter++).padStart(4, "0");
     console.log(data[0]);
     res.redirect('/profile');
 }

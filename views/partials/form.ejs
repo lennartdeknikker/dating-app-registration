@@ -52,7 +52,7 @@
         <h2>My favorite animal</h2>
         <div>
             <div>
-                <input type="radio" name="animal" id="dog" <% if (data[0].animal == "on") {%> checked="checked" <%}%>>
+                <input type="radio" name="animal" value="dog" id="dog" <% if (data[0].animal == "dog") {%> checked="checked" <%}%>>
                 <label for="dog">Dog</label>
             </div>
         </div>
@@ -62,7 +62,7 @@
         </div>
         <div>
             <div>
-                <input type="radio" name="animal" id="cat" <% if (data[0].animal == "off") {%> checked="checked" <%}%>>
+                <input type="radio" name="animal" value="cat" id="cat" <% if (data[0].animal == "cat") {%> checked="checked" <%}%>>
                 <label for="cat">Cat</label>
             </div>
         </div>
