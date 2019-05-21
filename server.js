@@ -13,5 +13,11 @@ express()
     .get('/profile', function(req, res) {
         res.render('pages/profile');
     })
+    .get('/information', function(req, res) {
+        res.render('pages/information');
+    })
+    .get('/available', function(req, res) {
+        res.render('pages/available');
+    })
     .listen(8080);
     console.log('listening on port 8080');
