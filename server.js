@@ -1,8 +1,4 @@
 var express = require('express');
-var bodyParser = require('body-parser');
-var ejs = require('ejs');
-
-var data = [];
 
 express()
     .set('view engine', 'ejs')
@@ -18,6 +14,9 @@ express()
     })
     .get('/available', function(req, res) {
         res.render('pages/available');
+    })
+    .get('*', function(req, res){
+        res.send('The requested page does not exist.', 404);
     })
     .listen(8080);
     console.log('listening on port 8080');
