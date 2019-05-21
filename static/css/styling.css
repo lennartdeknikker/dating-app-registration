@@ -1,0 +1,245 @@
+html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+}
+
+body {
+    background-color: #d0006f;
+    margin: 0;
+    max-width: 30em;
+    display: grid;
+    grid-template-areas:
+    "header"
+    "activities"
+    "main"
+    "footer";
+    grid-template-rows: 4em .1fr 7fr 8em;
+    height: 100%;
+    max-height: 45em;
+    font-family: Neutraface Display;
+}
+
+header {
+    background-color: #424242;
+    grid-area: header;
+}
+
+h1 {
+    color: white;
+}
+
+nav {
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 1em;
+    width: 100%;
+}
+
+nav img {
+    width: 2.5em;
+}
+
+nav a:nth-child(2) img {
+    width: 7.5em;
+}
+
+.activities {
+    align-items: center;
+    grid-area: activities;
+    background-color: #e4e4e4;
+    display: flex;
+    box-sizing: border-box;
+    padding: .5em 1em;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+h2 {
+    font-size: 1.5em;
+    font-weight: normal;
+    text-align: center;
+    width: 100%;
+    margin: 0 0 .5em;
+    height: 1em;
+}
+
+.activity-icons {
+    display: flex;
+    align-items: center;
+}
+
+.activity-icons img {
+    width: 2.5em;
+}
+
+.activities button {
+    background-color: #424242;
+    border: 1.5px solid #d0006f;
+    width: 2.5em;
+    border-radius: 100%;
+    height: 2.5em;
+    padding: 0;
+    color: white;
+}
+
+.activities button img {
+    width: 100%;
+}
+
+main {
+    grid-area: main;
+    box-sizing: border-box;
+    padding: .5em 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.grey-section {
+    background-color: #e4e4e4;
+    grid-template-rows: 4em .1fr 7fr 0;
+}
+
+.images {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.more-photos {
+    background: url('images/more_photos.png');
+    background-position: center;
+    background-size: contain;
+    width: 17%;
+    margin-right: 3%;
+}
+
+.about {
+    background: url('images/about.png');
+    background-position: center;
+    background-size: contain;
+    width: 17%;
+    margin-left: 3%;
+}
+
+.images img {
+    width: 60%;
+    height: 100%;
+}
+
+.info {
+    background-color: #842457;
+    align-items: center;
+    color: white;
+    display: flex;
+    box-sizing: border-box;
+    padding: .5em 1em;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-size: 1.2em;
+}
+
+form {
+    width: 30em;
+}
+
+footer {
+    grid-area: footer;
+    display: flex;
+    justify-content: space-between;
+}
+
+footer button, footer a {
+    background-color: transparent;
+    width: 40%;
+    border: none;
+    height: 100%;
+    margin: 0;
+}
+
+footer a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+footer a span {
+    font-family: Neutraface Display;
+    font-weight: bold;
+    display: block;
+    color: white;
+    font-size: 1.5em;
+    padding: 0 1.5em;
+    text-align: center;
+}
+
+footer img {
+    width: 50%;
+}
+
+img {
+    width:  1em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+fieldset {
+    border: none;
+}
+
+fieldset:nth-child(3) {
+    margin-bottom: 2em;
+}
+
+fieldset div {
+    display: flex;
+    justify-content: center;
+}
+
+label {
+    width: 20%;
+    text-align: right;
+    padding-right: 1em;
+}
+
+input, select, textarea {
+    width: 70%;
+    margin: 0 0 .4em;
+    padding: .2em;
+    font-family: Neutraface Display;
+    font-size: 1.1em;
+    border: none;
+    height: 1.5em;
+}
+
+textarea {
+    height: 4em;
+}
+
+.save-button {    
+    background-color: #d0006f;
+    border: none;
+    color: white;
+    font-family: Neutraface Display;
+    font-size: 1.5em;
+    width: 100%;
+    height: 4em;
+}
+
+.fieldset-save {
+    padding: 0;
+    border: 0;
+    margin: 0;
+}
