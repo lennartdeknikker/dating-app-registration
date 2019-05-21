@@ -15,7 +15,7 @@ express()
 
 
     function home(req, res) {
-        userAvailability = true;
+        userAvailability = false;
         res.render('pages/index', {
             userAvailability: userAvailability
         });
@@ -40,8 +40,8 @@ express()
     }
 
     function available(req, res) {
-        userAvailability = false;
-        res.render('pages/available', {
+        userAvailability = true;
+        res.render('pages/index', {
             userAvailability: userAvailability
         });
     }
