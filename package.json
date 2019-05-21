@@ -12,7 +12,7 @@
     "url": "https://github.com/lennartdeknikker/dating-app-registration/issues"
   },
   "license": "MIT",
-  "main": "index.js",
+  "main": "server.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/lennartdeknikker/dating-app-registration"
