@@ -1,6 +1,7 @@
 var express = require('express');
 var slug = require('slug');
 var bodyParser = require('body-parser');
+var request = require('request');
 
 var userAvailability = true;
 var data = [{
@@ -34,7 +35,6 @@ express()
     .listen(8080);
 console.log('listening on port 8080');
 
-
 function home(req, res) {
     userAvailability = false;
     res.render('pages/index', {
@@ -54,10 +54,19 @@ function profile(req, res) {
 function information(req, res) {
     var headerText = "Change / Add Information";
     var backLink = "/profile";
+    var dogBreeds = [];
+    request('https://dog.ceo/api/breeds/list/all', function (error, response, body) {
+        console.log('statusCode:', response && response.statusCode);
+        var dogBreedsJSON = JSON.parse(body).message;
+        for (var breed in dogBreedsJSON) {
+            dogBreeds.push(breed);
+        }
+    });
     res.render('pages/information', {
         headerText: headerText,
         backLink: backLink,
-        data: data
+        data: data,
+        dogBreeds: dogBreeds
     });
 }
 
