@@ -56,10 +56,11 @@
                 <label for="dog">Dog</label>
             </div>
         </div>
-        <div>
-            <label for="dogBreed" title="Breed of dog">Breed:</label>
-            <input type="text" name="dogBreed" id="dogBreed" value="<%= data[0].dogBreed %>">
-        </div>
+            <%= dogBreeds %>
+            <div>
+                <label for="dogBreed" title="Breed of dog">Breed:</label>
+                <input type="text" name="dogBreed" id="dogBreed" value="<%= data[0].dogBreed %>">
+            </div>
         <div>
             <div>
                 <input type="radio" name="animal" value="cat" id="cat" <% if (data[0].animal == "cat") {%> checked="checked" <%}%>>

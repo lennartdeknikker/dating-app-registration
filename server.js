@@ -86,12 +86,12 @@ function information(req, res) {
                 console.log('error', error, response && response.statusCode);
             }
         });
-
     res.render('pages/information', {
         headerText: headerText,
         backLink: backLink,
         data: data,
-        dogBreeds: dogBreeds
+        dogBreeds: dogBreeds,
+        catBreeds: catBreeds
     });
 }
 
