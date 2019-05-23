@@ -4,6 +4,8 @@ var slug = require('slug');
 var bodyParser = require('body-parser');
 var request = require('request');
 
+require('dotenv').config();
+
 // global variables
 var userAvailability = true;
 var idCounter = 0;
@@ -34,7 +36,7 @@ express()
     .post('/information', save)
     .get('/available', available)
     .get('*', pageNotFound)
-    .listen(3000, function() { console.log('listening on port 8080'); });
+    .listen(8080, function() { console.log('listening on port 8080'); });
 
 // functions for rendering pages
 function home(req, res) {
@@ -43,7 +45,6 @@ function home(req, res) {
         userAvailability: userAvailability
     });
 }
-
 function profile(req, res) {
     var headerText = "My Profile";
     var backLink = "/";
@@ -52,7 +53,6 @@ function profile(req, res) {
         backLink: backLink
     });
 }
-
 function information(req, res) {
     var headerText = "Change / Add Information";
     var backLink = "/profile";
@@ -60,20 +60,28 @@ function information(req, res) {
     // request dog breeds from an external API and save them as an array in 'dogBreeds'.
     var dogBreeds = [];
     request('https://dog.ceo/api/breeds/list/all', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
         console.log('statusCode:', response && response.statusCode);
         var dogBreedsJSON = JSON.parse(body).message;
         for (var breed in dogBreedsJSON) {
             dogBreeds.push(breed);
         }
+    } else {
+        console.log('error', error, response && response.statusCode);
+        }
     });
 
-    // request cat breeds from an external API and save them as an array in 'dogBreeds'.
+    // request cat breeds from an external API and save them as an array in 'catBreeds'.
+    var catBreeds = [];
     request('https://api.thecatapi.com/v1/breeds', {
-            'x-api-key': ''
+            'x-api-key': process.env.API_KEY_CATBREEDS
         },
         function (error, response, body) {
             if (!error && response.statusCode == 200) {
-                console.log('body:', body);
+                var catBreedsJSON = JSON.parse(body);
+                for (var breed of catBreedsJSON) {
+                    catBreeds.push(breed.name);
+                }
             } else {
                 console.log('error', error, response && response.statusCode);
             }
