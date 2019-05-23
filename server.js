@@ -11,7 +11,7 @@ var data = [{
     music: 'Love it',
     movies: 'Neutral',
     books: 'Like it',
-    animal: 'cat',
+    animal: 'dog',
     dogBreed: 'Golden Retriever',
     catBreed: undefined
 }];
@@ -28,7 +28,7 @@ express()
     .get('/', home)
     .get('/profile', profile)
     .get('/information', information)
-    .post('/information', change)
+    .post('/information', save)
     .get('/available', available)
     .get('*', pageNotFound)
     .listen(8080);
@@ -61,10 +61,15 @@ function information(req, res) {
     });
 }
 
-function change(req, res) {
+function save(req, res) {
     var name = slug(req.body.name);
     data[0] = req.body;
     data[0].id = String(idCounter++).padStart(4, "0");
+    if (data[0].animal === "dog") {
+        data[0].catBreed = "";
+    } else {
+        data[0].dogBreed = "";
+    }
     console.log(data[0]);
     res.redirect('/profile');
 }
