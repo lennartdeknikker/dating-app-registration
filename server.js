@@ -3,14 +3,15 @@ var express = require('express');
 var slug = require('slug');
 var bodyParser = require('body-parser');
 var request = require('request');
-var mongo = require('mongodb');
 
 require('dotenv').config();
 
-// global variables
-var db = null;
-var url = 'mongodb://' + process.env.DB_HOST + ':' + process.env.DB_PORT;
+// mongoDB setup
+const MongoClient = require('mongodb').MongoClient;
+const uri = 'mongodb+srv://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@profiles-ttwoc.mongodb.net/test?retryWrites=true';
+const client = new MongoClient(uri, { useNewUrlParser: true });
 
+// global variables
 var userAvailability = true;
 var idCounter = 0;
 var data = [{
@@ -25,48 +26,6 @@ var data = [{
     dogBreed: 'Golden Retriever',
     catBreed: undefined
 }];
-
-// mongodb setup
-/*
-mongo.MongoClient.connect(url, function (err, client) {
-    if (err) throw err;
-    db = client.db(process.env.DB_NAME);
-});
-
-function personal_details(req, res, next) {
-    db.collection('details').find().toArray(done);
-
-    function done(err, data) {
-        if (err) {
-            next(err);
-        } else {
-            res.render('list.ejs', {
-                data: data
-            });
-        }
-    }
-}
-
-function add(req, res, next) {
-    var name = slug(req.body.name);
-    data[0] = req.body;
-    data[0].id = String(idCounter++).padStart(4, "0");
-    if (data[0].animal === "dog") {
-        data[0].catBreed = "";
-    } else {
-        data[0].dogBreed = "";
-    }
-    db.collection('details').insertOne(data, done);
-
-    function done(err, data) {
-        if (err) {
-            next(err);
-        } else {
-            res.redirect('/information');
-        }
-    }
-}
-*/
 
 // express setup
 express()
@@ -154,6 +113,12 @@ function save(req, res) {
     } else {
         data[0].dogBreed = "";
     }
+    // save the data in the database
+    client.connect(err => {
+        const collection = client.db("Users").collection("information");
+        // perform actions on the collection object
+        client.close();
+    });
     console.log(data[0]);
     res.redirect('/profile');
 }
