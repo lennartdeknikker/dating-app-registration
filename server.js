@@ -34,8 +34,7 @@ express()
     .post('/information', save)
     .get('/available', available)
     .get('*', pageNotFound)
-    .listen(8080);
-console.log('listening on port 8080');
+    .listen(3000, function() { console.log('listening on port 8080'); });
 
 // functions for rendering pages
 function home(req, res) {
