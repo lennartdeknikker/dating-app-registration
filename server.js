@@ -1,9 +1,12 @@
+// required modules
 var express = require('express');
 var slug = require('slug');
 var bodyParser = require('body-parser');
 var request = require('request');
 
+// global variables
 var userAvailability = true;
+var idCounter = 0;
 var data = [{
     id: 'lennart',
     name: 'Lennart de Knikker',
@@ -17,8 +20,7 @@ var data = [{
     catBreed: undefined
 }];
 
-var idCounter = 0;
-
+// express setup
 express()
     .set('view engine', 'ejs')
     .use(express.static(__dirname + '/static'))
@@ -35,6 +37,7 @@ express()
     .listen(8080);
 console.log('listening on port 8080');
 
+// functions for rendering pages
 function home(req, res) {
     userAvailability = false;
     res.render('pages/index', {
@@ -54,6 +57,8 @@ function profile(req, res) {
 function information(req, res) {
     var headerText = "Change / Add Information";
     var backLink = "/profile";
+
+    // request dog breeds from an external API and save them as an array in 'dogBreeds'.
     var dogBreeds = [];
     request('https://dog.ceo/api/breeds/list/all', function (error, response, body) {
         console.log('statusCode:', response && response.statusCode);
@@ -62,6 +67,19 @@ function information(req, res) {
             dogBreeds.push(breed);
         }
     });
+
+    // request cat breeds from an external API and save them as an array in 'dogBreeds'.
+    request('https://api.thecatapi.com/v1/breeds', {
+            'x-api-key': ''
+        },
+        function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log('body:', body);
+            } else {
+                console.log('error', error, response && response.statusCode);
+            }
+        });
+
     res.render('pages/information', {
         headerText: headerText,
         backLink: backLink,
