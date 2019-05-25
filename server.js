@@ -7,27 +7,21 @@ var request = require('request');
 require('dotenv').config();
 
 // mongoDB setup
-const MongoClient = require('mongodb').MongoClient;
-const uri = 'mongodb+srv://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@profiles-ttwoc.mongodb.net/test?retryWrites=true';
-const client = new MongoClient(uri, {
+const mongo = require('mongodb');
+var db = null;
+const url = 'mongodb+srv://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@profiles-ttwoc.mongodb.net/test?retryWrites=true';
+
+mongo.MongoClient.connect(url, {
     useNewUrlParser: true
+}, function (err, client) {
+    if (err) {
+        throw err;
+    }
+    db = client.db(process.env.DB_NAME);
 });
 
 // global variables
 var userAvailability = true;
-var idCounter = 0;
-var data = {
-    id: 'lennart',
-    name: 'Lennart de Knikker',
-    birthday: '29/08/1994',
-    introduction: 'In my experience conversations in dating apps are really superficial. It’s too easy to forget to answer for a day or two or just lose interest when someone doesn’t answer right away. Because of that it’s not always easy to go from starting a conversation to planning a date, but there’s even more obstacles. People don’t always live in the same city and they’re not always available.',
-    music: 'Love it',
-    movies: 'Neutral',
-    books: 'Like it',
-    animal: 'dog',
-    dogBreed: 'Golden Retriever',
-    catBreed: undefined
-};
 
 // express setup
 express()
@@ -40,7 +34,7 @@ express()
     .get('/', home)
     .get('/profile', profile)
     .get('/information', information)
-    .post('/information', save)
+    /* .post('/information', save) */
     .get('/available', available)
     .get('*', pageNotFound)
     .listen(8080, function () {
@@ -64,7 +58,23 @@ function profile(req, res) {
     });
 }
 
-function information(req, res) {
+function information(req, res, next) {
+    db.collection('information').find().toArray(done);
+
+    function done(err, data) {
+        if (err) {
+            next(err);
+        } else {
+            res.render('pages/information', {
+                headerText: headerText,
+                backLink: backLink,
+                data: data[0],
+                dogBreeds: dogBreeds,
+                catBreeds: catBreeds
+            });
+        }
+    }
+
     var headerText = "Change / Add Information";
     var backLink = "/profile";
 
@@ -97,40 +107,32 @@ function information(req, res) {
                 console.log('error', error, response && response.statusCode);
             }
         });
-    // render information page
-    res.render('pages/information', {
-        headerText: headerText,
-        backLink: backLink,
-        data: data,
-        dogBreeds: dogBreeds,
-        catBreeds: catBreeds
-    });
 }
-
+/*
 function save(req, res) {
     var name = slug(req.body.name);
-    data = req.body;
-    data.id = String(idCounter++).padStart(4, "0");
-    if (data.animal === "dog") {
-        data.catBreed = "";
+    fake_data = req.body;
+    if (fake_data.animal === "dog") {
+        fake_data.catBreed = "";
     } else {
-        data.dogBreed = "";
+        fake_data.dogBreed = "";
     }
 
     client.connect(err => {
         const collection = client.db("Users").collection("information").find({});
         try {
-        console.log(data);
-        collection.updateOne({
-                name: "Lennart de Knikker"
-            }, {
-                $set: {"name" : "String(req.body.name)"}/* JSON.stringify(data) */,
-            })
-            .then(function (result) {
-                console.log(result);
-            });
-        }
-        catch(e) {
+            console.log(fake_data);
+            collection.updateOne({
+                    name: "Lennart de Knikker"
+                }, {
+                    $set: {
+                        "name": "String(req.body.name)"
+                    }  JSON.stringify(fake_data)  ,
+                })
+                .then(function (result) {
+                    console.log(result);
+                });
+        } catch (e) {
             console.log(e);
         }
         client.close();
@@ -138,6 +140,7 @@ function save(req, res) {
 
     res.redirect('/profile');
 }
+*/
 
 function available(req, res) {
     userAvailability = true;
