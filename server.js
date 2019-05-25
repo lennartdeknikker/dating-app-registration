@@ -9,12 +9,14 @@ require('dotenv').config();
 // mongoDB setup
 const MongoClient = require('mongodb').MongoClient;
 const uri = 'mongodb+srv://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@profiles-ttwoc.mongodb.net/test?retryWrites=true';
-const client = new MongoClient(uri, { useNewUrlParser: true });
+const client = new MongoClient(uri, {
+    useNewUrlParser: true
+});
 
 // global variables
 var userAvailability = true;
 var idCounter = 0;
-var data = [{
+var data = {
     id: 'lennart',
     name: 'Lennart de Knikker',
     birthday: '29/08/1994',
@@ -25,7 +27,7 @@ var data = [{
     animal: 'dog',
     dogBreed: 'Golden Retriever',
     catBreed: undefined
-}];
+};
 
 // express setup
 express()
@@ -95,6 +97,7 @@ function information(req, res) {
                 console.log('error', error, response && response.statusCode);
             }
         });
+    // render information page
     res.render('pages/information', {
         headerText: headerText,
         backLink: backLink,
@@ -106,20 +109,33 @@ function information(req, res) {
 
 function save(req, res) {
     var name = slug(req.body.name);
-    data[0] = req.body;
-    data[0].id = String(idCounter++).padStart(4, "0");
-    if (data[0].animal === "dog") {
-        data[0].catBreed = "";
+    data = req.body;
+    data.id = String(idCounter++).padStart(4, "0");
+    if (data.animal === "dog") {
+        data.catBreed = "";
     } else {
-        data[0].dogBreed = "";
+        data.dogBreed = "";
     }
-    // save the data in the database
+
     client.connect(err => {
-        const collection = client.db("Users").collection("information");
-        // perform actions on the collection object
+        const collection = client.db("Users").collection("information").find({});
+        try {
+        console.log(data);
+        collection.updateOne({
+                name: "Lennart de Knikker"
+            }, {
+                $set: {"name" : "String(req.body.name)"}/* JSON.stringify(data) */,
+            })
+            .then(function (result) {
+                console.log(result);
+            });
+        }
+        catch(e) {
+            console.log(e);
+        }
         client.close();
     });
-    console.log(data[0]);
+
     res.redirect('/profile');
 }
 
