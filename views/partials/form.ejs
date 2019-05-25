@@ -56,10 +56,17 @@
                 <label for="dog">Dog</label>
             </div>
         </div>
-            <%= dogBreeds %>
             <div>
                 <label for="dogBreed" title="Breed of dog">Breed:</label>
-                <input type="text" name="dogBreed" id="dogBreed" value="<%= data.dogBreed %>">
+                <% if (dogBreeds) { %>
+                <select name="dogBreed" id="dogBreed">
+                    <% for (i = 0; i < dogBreeds.length; i++) { %>
+                        <option <% if (data.dogBreed == dogBreeds[i]) {%> selected <%}%> value=<%= dogBreeds[i] %>><%= dogBreeds[i] %></option>
+                    <% } %>
+                </select>
+                <% } else { %>
+                    <input type="text" name="dogBreed" id="dogBreed" value="<%= data.dogBreed %>">
+                <% } %>
             </div>
         <div>
             <div>
@@ -69,8 +76,16 @@
         </div>
         <div>
             <label for="catBreed" title="Breed of cat">Breed:</label>
-            <input type="text" name="catBreed" id="catBreed" value="<%= data.catBreed %>">
-        </div>
+            <% if (catBreeds) { %>
+                <select name="catBreed" id="catBreed">
+                    <% for (i = 0; i < catBreeds.length; i++) { %>
+                        <option <% if (data.catBreed == catBreeds[i]) {%> selected <%}%> value=<%= catBreeds[i] %>><%= catBreeds[i] %></option>
+                    <% } %>
+                </select>
+                <% } else { %>
+                    <input type="text" name="catBreed" id="catBreed" value="<%= data.catBreed %>">
+                <% } %>
+            </div>
     </fieldset>
     <fieldset class="fieldset-save">
         <button type="submit" value="submit" class="save-button">Save</button>
