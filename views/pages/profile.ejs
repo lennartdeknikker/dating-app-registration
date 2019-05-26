@@ -3,13 +3,13 @@
 <body>
     <% include ../partials/headers/settings %>
     <main>
-        <h2>My photo:</h2>
+        <h2>My profile picture:</h2>
         <section class="images">
-            <img src="images/profile_pictures/profile7.jpg" alt="" class="profile-picture">
+            <img src="upload/<%= profilePictureUrl %>" alt="" class="profile-picture">
         </section>
         <section class="info">
             <h2>About Me</h2>
-            In my experience conversations in dating apps are really superficial. It’s too easy to forget to answer for a day or two or just lose interest when someone doesn’t answer right away. Because of that it’s not always easy to go from starting a conversation to planning a date, but there’s even more obstacles. People don’t always live in the same city and they’re not always available.
+            <%= aboutText %>
         </section>
     </main>
     <footer>

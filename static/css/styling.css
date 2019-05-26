@@ -150,6 +150,7 @@ main {
     border: 5px solid #d0006f;
     box-sizing: border-box;
     width: 80%;
+    margin-top: 2em;
 }
 
 form {
@@ -229,10 +230,16 @@ input, select, textarea {
     font-size: 1.1em;
     border: none;
     height: 1.5em;
+    background-color: white;
 }
 
 textarea {
     height: 4em;
+}
+
+.in-name {
+    background-color: #e4e4e4;
+    font-weight: bold;
 }
 
 .save-button {    

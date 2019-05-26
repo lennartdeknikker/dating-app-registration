@@ -13,10 +13,11 @@ var storage = multer.diskStorage({
     filename: function (req, file, cb) {
         cb(null, 'profile.jpg');
     }
-})
+});
 var upload = multer({
     storage: storage
 });
+
 var user = "Lennart de Knikker";
 
 require('dotenv').config();
@@ -69,97 +70,6 @@ function home(req, res) {
 function profile(req, res) {
     var headerText = "My Profile";
     var backLink = "/";
-    res.render('pages/profile', {
-        headerText: headerText,
-        backLink: backLink
-    });
-}
-
-function information(req, res, next) {
-    var dogBreeds = [""];
-    var catBreeds = [""];
-
-    // request dog breeds from an external API and save them as an array in 'dogBreeds'.
-    request('https://dog.ceo/api/breeds/list/all', function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            console.log('statusCode:', response && response.statusCode);
-            var dogBreedsJSON = JSON.parse(body).message;
-            for (var breed in dogBreedsJSON) {
-                dogBreeds.push(breed);
-            }
-            // then call getCats()
-            getCats();
-        } else {
-            console.log('error', error, response && response.statusCode);
-        }
-    });
-
-    // request cat breeds from an external API and save them as an array in 'catBreeds'.
-    function getCats() {
-        request('https://api.thecatapi.com/v1/breeds', {
-                'x-api-key': process.env.API_KEY_CATBREEDS
-            },
-            function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    var catBreedsJSON = JSON.parse(body);
-                    for (var breed of catBreedsJSON) {
-                        catBreeds.push(breed.name);
-                    }
-                    // then call getInformation()
-                    getInformation();
-                } else {
-                    console.log('error', error, response && response.statusCode);
-                }
-            });
-    }
-
-    // get User Info from MongoDB
-    function getInformation() {
-        db.collection('information').find().toArray(done);
-
-        // then render the page
-        function done(err, data) {
-            if (err) {
-                next(err);
-            } else {
-                res.render('pages/information', {
-                    headerText: "Change / Add Information",
-                    backLink: "/profile",
-                    data: data[0],
-                    dogBreeds: dogBreeds,
-                    catBreeds: catBreeds
-                });
-            }
-        }
-    }
-
-}
-
-function saveInformation(req, res, next) {
-    var savedData = req.body;
-    if (savedData.animal === "dog") {
-        savedData.catBreed = "";
-    } else {
-        savedData.dogBreed = "";
-    }
-
-    db.collection('information').updateOne({
-        name: savedData.name
-    }, {
-        $set: savedData
-    }, done);
-
-    function done(err, data) {
-        if (err) {
-            next(err);
-        } else {
-            console.log(savedData);
-            res.redirect('/profile');
-        }
-    }
-}
-
-function picture(req, res) {
     db.collection('information').find().toArray(done);
 
     // then render the page
@@ -167,40 +77,141 @@ function picture(req, res) {
         if (err) {
             next(err);
         } else {
-            res.render('pages/picture', {
-                headerText: "Change picture",
-                backLink: "/profile",
-                profilePictureUrl: data[0].profilePictureUrl
+            res.render('pages/profile', {
+                headerText: headerText,
+                backLink: backLink,
+                profilePictureUrl: data[0].profilePictureUrl,
+                aboutText: data[0].introduction
             });
         }
     }
 }
 
-function savePicture(req, res) {
-    db.collection('information').updateOne({
-        name: user
-    }, {
-        $set: {
-            profilePictureUrl: req.file ? req.file.filename : null
-        }
-    }, done);
+    function information(req, res, next) {
+        var dogBreeds = [""];
+        var catBreeds = [""];
 
-    function done(err, data) {
-        if (err) {
-            next(err);
+        // request dog breeds from an external API and save them as an array in 'dogBreeds'.
+        request('https://dog.ceo/api/breeds/list/all', function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log('statusCode:', response && response.statusCode);
+                var dogBreedsJSON = JSON.parse(body).message;
+                for (var breed in dogBreedsJSON) {
+                    dogBreeds.push(breed);
+                }
+                // then call getCats()
+                getCats();
+            } else {
+                console.log('error', error, response && response.statusCode);
+            }
+        });
+
+        // request cat breeds from an external API and save them as an array in 'catBreeds'.
+        function getCats() {
+            request('https://api.thecatapi.com/v1/breeds', {
+                    'x-api-key': process.env.API_KEY_CATBREEDS
+                },
+                function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        var catBreedsJSON = JSON.parse(body);
+                        for (var breed of catBreedsJSON) {
+                            catBreeds.push(breed.name);
+                        }
+                        // then call getInformation()
+                        getInformation();
+                    } else {
+                        console.log('error', error, response && response.statusCode);
+                    }
+                });
+        }
+
+        // get User Info from MongoDB
+        function getInformation() {
+            db.collection('information').find().toArray(done);
+
+            // then render the page
+            function done(err, data) {
+                if (err) {
+                    next(err);
+                } else {
+                    res.render('pages/information', {
+                        headerText: "Change / Add Information",
+                        backLink: "/profile",
+                        data: data[0],
+                        dogBreeds: dogBreeds,
+                        catBreeds: catBreeds
+                    });
+                }
+            }
+        }
+
+    }
+
+    function saveInformation(req, res, next) {
+        var savedData = req.body;
+        if (savedData.animal === "dog") {
+            savedData.catBreed = "";
         } else {
-            res.redirect('/profile');
+            savedData.dogBreed = "";
+        }
+
+        db.collection('information').updateOne({
+            name: user
+        }, {
+            $set: savedData
+        }, done);
+
+        function done(err, data) {
+            if (err) {
+                next(err);
+            } else {
+                res.redirect('/profile');
+            }
         }
     }
-}
 
-function available(req, res) {
-    userAvailability = true;
-    res.render('pages/index', {
-        userAvailability: userAvailability
-    });
-}
+    function picture(req, res) {
+        db.collection('information').find().toArray(done);
 
-function pageNotFound(req, res) {
-    res.status(404).send('The requested page does not exist.');
-}
+        // then render the page
+        function done(err, data) {
+            if (err) {
+                next(err);
+            } else {
+                res.render('pages/picture', {
+                    headerText: "Change picture",
+                    backLink: "/profile",
+                    profilePictureUrl: data[0].profilePictureUrl
+                });
+            }
+        }
+    }
+
+    function savePicture(req, res) {
+        db.collection('information').updateOne({
+            name: user
+        }, {
+            $set: {
+                profilePictureUrl: req.file ? req.file.filename : null
+            }
+        }, done);
+
+        function done(err, data) {
+            if (err) {
+                next(err);
+            } else {
+                res.redirect('/profile');
+            }
+        }
+    }
+
+    function available(req, res) {
+        userAvailability = true;
+        res.render('pages/index', {
+            userAvailability: userAvailability
+        });
+    }
+
+    function pageNotFound(req, res) {
+        res.status(404).send('The requested page does not exist.');
+    }
