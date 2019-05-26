@@ -79,7 +79,7 @@
             <% if (catBreeds) { %>
                 <select name="catBreed" id="catBreed">
                     <% for (i = 0; i < catBreeds.length; i++) { %>
-                        <option <% if (data.catBreed == catBreeds[i]) {%> selected <%}%> value=<%= catBreeds[i] %>><%= catBreeds[i] %></option>
+                        <option <% if (data.catBreed == catBreeds[i].replace(/\s/g, "-")) {%> selected <%}%> value=<%= catBreeds[i].replace(/\s/g, "-") %>><%= catBreeds[i] %></option>
                     <% } %>
                 </select>
                 <% } else { %>
