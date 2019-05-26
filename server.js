@@ -35,6 +35,7 @@ express()
     .get('/profile', profile)
     .get('/information', information)
     .post('/information', save)
+    .get('/picture', picture)
     .get('/available', available)
     .get('*', pageNotFound)
     .listen(8080, function () {
@@ -141,6 +142,14 @@ function save(req, res, next) {
             res.redirect('/information');
         }
     }
+}
+
+function picture(req, res) {
+    res.render('pages/picture', {
+        headerText: "Change picture",
+        backLink: "/profile",
+        profilePictureUrl: ""
+    });
 }
 
 function available(req, res) {
