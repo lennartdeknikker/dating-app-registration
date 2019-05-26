@@ -4,6 +4,21 @@ var slug = require('slug');
 var bodyParser = require('body-parser');
 var request = require('request');
 
+// Multer
+var multer = require('multer');
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './static/upload');
+    },
+    filename: function (req, file, cb) {
+        cb(null, 'profile.jpg');
+    }
+})
+var upload = multer({
+    storage: storage
+});
+var user = "Lennart de Knikker";
+
 require('dotenv').config();
 
 // mongoDB setup
@@ -34,8 +49,9 @@ express()
     .get('/', home)
     .get('/profile', profile)
     .get('/information', information)
-    .post('/information', save)
+    .post('/information', saveInformation)
     .get('/picture', picture)
+    .post('/picture', upload.single('profilePicture'), savePicture)
     .get('/available', available)
     .get('*', pageNotFound)
     .listen(8080, function () {
@@ -119,7 +135,7 @@ function information(req, res, next) {
 
 }
 
-function save(req, res, next) {
+function saveInformation(req, res, next) {
     var savedData = req.body;
     if (savedData.animal === "dog") {
         savedData.catBreed = "";
@@ -138,17 +154,44 @@ function save(req, res, next) {
             next(err);
         } else {
             console.log(savedData);
-            res.redirect('/information');
+            res.redirect('/profile');
         }
     }
 }
 
 function picture(req, res) {
-    res.render('pages/picture', {
-        headerText: "Change picture",
-        backLink: "/profile",
-        profilePictureUrl: "profile7.jpg"
-    });
+    db.collection('information').find().toArray(done);
+
+    // then render the page
+    function done(err, data) {
+        if (err) {
+            next(err);
+        } else {
+            res.render('pages/picture', {
+                headerText: "Change picture",
+                backLink: "/profile",
+                profilePictureUrl: data[0].profilePictureUrl
+            });
+        }
+    }
+}
+
+function savePicture(req, res) {
+    db.collection('information').updateOne({
+        name: user
+    }, {
+        $set: {
+            profilePictureUrl: req.file ? req.file.filename : null
+        }
+    }, done);
+
+    function done(err, data) {
+        if (err) {
+            next(err);
+        } else {
+            res.redirect('/profile');
+        }
+    }
 }
 
 function available(req, res) {
