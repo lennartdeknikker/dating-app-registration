@@ -89,7 +89,6 @@ function information(req, res, next) {
                     for (var breed of catBreedsJSON) {
                         catBreeds.push(breed.name);
                     }
-                    console.log(catBreeds);
                     // then call getInformation()
                     getInformation();
                 } else {
@@ -148,7 +147,7 @@ function picture(req, res) {
     res.render('pages/picture', {
         headerText: "Change picture",
         backLink: "/profile",
-        profilePictureUrl: ""
+        profilePictureUrl: "profile7.jpg"
     });
 }
 

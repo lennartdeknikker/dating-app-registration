@@ -3,11 +3,11 @@
 <body class="grey-section">
     <% include ../partials/headers/settings %>
     <main class="main-information">
-        <img src="/upload/<%profilePictureUrl%>" alt="profile picture">
+        <img src="/upload/<%= profilePictureUrl %>" class="profile-picture" alt="profile picture">
         <form action=/ method=post enctype=multipart/form-data>
             <label for="profilePicture" title="Profile Picture"></label>
-                <input name=cover type=file accept=image/*>
-            <button>Change picture</button>
+            <input name="profilePicture" class="btn-select-picture" type=file accept=image/*>
+            <button class="save-button">Change picture</button>
         </form>
 
     </main>
