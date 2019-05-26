@@ -86,7 +86,7 @@ function information(req, res, next) {
                 if (!error && response.statusCode == 200) {
                     var catBreedsJSON = JSON.parse(body);
                     for (var breed of catBreedsJSON) {
-                        catBreeds.push(breed.name);
+                        catBreeds.push(breed.name.replace(/\s/g, "-"));
                     }
                     console.log(catBreeds);
                     // then call getInformation()
