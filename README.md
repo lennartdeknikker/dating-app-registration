@@ -13,4 +13,8 @@ You can also install this feature as a development dependency:
 `npm install --save-dev dating-app-registration`
 
 ## License
-Unless stated otherwise, code is MIT © [Lennart de Knikker](http://www.lenn4rt.com), docs and images are CC-BY-4.0.
+Unless stated otherwise, code is MIT © [Lennart de Knikker](http://www.lenn4rt.com).
+
+Most pictures of people are produced by a GAN (generative adversarial network) on www.thispersondoesnotexist.com.
+
+Icons are from thenounproject.com.

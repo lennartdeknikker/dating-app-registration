@@ -52,6 +52,8 @@ express()
     .post('/information', saveInformation)
     .get('/picture', picture)
     .post('/picture', upload.single('profilePicture'), savePicture)
+    .get('/settings', settings)
+    .delete('/settings/:id', remove)
     .get('/available', available)
     .get('*', pageNotFound)
     .listen(8080, function () {
@@ -208,6 +210,24 @@ function savePicture(req, res) {
     }
 }
 
+function settings(req, res) {
+    const headerText = "Settings";
+    const backLink = "/profile";
+    db.collection('information').find().toArray(done);
+
+    function done(err, data) {
+        if (err) {
+            next(err);
+        } else {
+            res.render('pages/settings', {
+                headerText: headerText,
+                backLink: backLink,
+                id: data[0]._id
+            });
+        }
+    }
+}
+
 function available(req, res) {
     userAvailability = true;
     res.render('pages/index', {
@@ -217,4 +237,20 @@ function available(req, res) {
 
 function pageNotFound(req, res) {
     res.status(404).send('The requested page does not exist.');
+}
+
+function remove(req, res) {
+    var id = req.params.id;
+    console.log(id);
+    db.collection('information').deleteOne({
+        _id: new mongo.ObjectID(id)
+    }, done);
+
+    function done(err, data) {
+        if (err) {
+            next(err);
+        } else {
+            res.json({status: 'ok'});
+        }
+    }
 }
