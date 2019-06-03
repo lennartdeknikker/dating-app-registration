@@ -2,22 +2,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
+const multer = require('multer');
+
+const userId = "5cf506d01c9d44000032e8f4";
 
 // Multer
-const multer = require('multer');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './static/upload');
     },
     filename: function (req, file, cb) {
-        cb(null, 'profile.jpg');
+        cb(null, userId+'.jpg');
     }
 });
 const upload = multer({
     storage: storage
 });
-
-const user = "Lennart de Knikker";
 
 require('dotenv').config();
 
@@ -71,7 +71,7 @@ function home(req, res) {
 function profile(req, res) {
     const headerText = "My Profile";
     const backLink = "/";
-    db.collection('information').find().toArray(done);
+    db.collection('information').find({ _id: new mongo.ObjectID(userId)}).toArray(done);
 
     function done(err, data) {
         if (err) {
@@ -132,7 +132,7 @@ function information(req, res, next) {
 
     // get User Info from MongoDB
     function getInformation() {
-        db.collection('information').find().toArray(done);
+        db.collection('information').find({ _id: new mongo.ObjectID(userId)}).toArray(done);
 
         // then render the page
         function done(err, data) {
@@ -161,7 +161,7 @@ function saveInformation(req, res, next) {
     }
 
     db.collection('information').updateOne({
-        name: user
+        _id: new mongo.ObjectID(userId)
     }, {
         $set: savedData
     }, done);
@@ -176,7 +176,7 @@ function saveInformation(req, res, next) {
 }
 
 function picture(req, res) {
-    db.collection('information').find().toArray(done);
+    db.collection('information').find({ _id: new mongo.ObjectID(userId)}).toArray(done);
 
     // then render the page
     function done(err, data) {
@@ -194,7 +194,7 @@ function picture(req, res) {
 
 function savePicture(req, res) {
     db.collection('information').updateOne({
-        name: user
+        _id: new mongo.ObjectID(userId)
     }, {
         $set: {
             profilePictureUrl: req.file ? req.file.filename : null
@@ -213,7 +213,7 @@ function savePicture(req, res) {
 function settings(req, res) {
     const headerText = "Settings";
     const backLink = "/profile";
-    db.collection('information').find().toArray(done);
+    db.collection('information').find({ _id: new mongo.ObjectID(userId)}).toArray(done);
 
     function done(err, data) {
         if (err) {

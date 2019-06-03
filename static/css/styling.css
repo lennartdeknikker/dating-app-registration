@@ -142,6 +142,7 @@ main {
     flex-wrap: wrap;
     justify-content: space-between;
     font-size: 1.2em;
+    min-height: 7em;
 }
 
 .profile-picture {
