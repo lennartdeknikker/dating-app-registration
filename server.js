@@ -56,7 +56,7 @@ express()
     .delete('/settings/:id', remove)
     .get('/available', available)
     .get('*', pageNotFound)
-    .listen(8080, function () {
+    .listen(process.env.PORT, function () {
         console.log('listening on port 8080');
     });
 
