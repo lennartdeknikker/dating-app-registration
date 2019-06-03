@@ -61,7 +61,6 @@ nav a:nth-child(2) img {
 
 h2 {
     font-size: 1.5em;
-    font-weight: normal;
     text-align: center;
     width: 100%;
     margin: 0 0 .5em;
@@ -150,7 +149,6 @@ main {
     border: 5px solid #d0006f;
     box-sizing: border-box;
     width: 80%;
-    margin-top: 2em;
 }
 
 form {
@@ -220,6 +218,9 @@ label {
     width: 20%;
     text-align: right;
     padding-right: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 input, select, textarea {

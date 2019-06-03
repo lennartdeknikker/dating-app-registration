@@ -11,3 +11,6 @@ And the feature will be installed to your system path.
 You can also install this feature as a development dependency:
 
 `npm install --save-dev dating-app-registration`
+
+## License
+Unless stated otherwise, code is MIT © [Lennart de Knikker](http://www.lenn4rt.com), docs and images are CC-BY-4.0.
