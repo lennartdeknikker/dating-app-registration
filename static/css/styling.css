@@ -117,6 +117,10 @@ main {
     justify-content: space-between;
 }
 
+.main-settings {
+    justify-content: center;
+}
+
 .grey-section {
     background-color: #e4e4e4;
     grid-template-rows: 4em .1fr 7fr 0;
@@ -225,7 +229,7 @@ fieldset div {
 
 label {
     width: 20%;
-    text-align: right;
+    text-align: left;
     padding-right: 1em;
     display: flex;
     justify-content: center;
@@ -279,8 +283,7 @@ textarea {
     margin: 0;
 }
 
-.btn-reset {
-    background-color: red;
+.btn-settings {
     border: none;
     color: white;
     font-family: 'Muli', sans-serif;
@@ -293,4 +296,14 @@ textarea {
     align-items: center;
     justify-content: center;
     text-decoration: none;
+    margin-bottom: .2em;
+}
+
+.btn-reset {
+    background-color: red;
+    margin-top: 2em;
+}
+
+.btn-logout {
+    background-color: #d0006f;
 }
