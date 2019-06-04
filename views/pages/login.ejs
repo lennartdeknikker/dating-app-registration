@@ -1,0 +1,25 @@
+<% include ../partials/head %>
+
+<body class="grey-section">
+    <% include ../partials/headers/login %>
+    <main>
+        <section class="logo-container">
+            <img src="images/logo_full.png" alt="logo" class="logo">
+        </section>
+        <form action="POST" class="form-login">
+            <fieldset>
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" id="username">
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="text" name="password" id="password">
+                </div>
+            </fieldset>
+        </form>
+
+    </main>
+</body>
+
+</html>

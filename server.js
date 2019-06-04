@@ -47,6 +47,7 @@ express()
         extended: true
     }))
     .get('/', home)
+    .get('/login', login)
     .get('/profile', profile)
     .get('/information', information)
     .post('/information', saveInformation)
@@ -61,6 +62,12 @@ express()
     });
 
 // functions for rendering pages
+function login(req, res) {
+    res.render('pages/login', {
+        headerText: "Log In"
+    });
+}
+
 function home(req, res) {
     userAvailability = false;
     res.render('pages/index', {

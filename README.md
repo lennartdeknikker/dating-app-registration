@@ -1,6 +1,8 @@
 # Dating-app-registration
 This feature can be used in dating apps to change or add information to a profile.
 
+The deployed application can be found on https://dating-app-lennart.herokuapp.com/
+
 ## Installation
 Either through cloning with git or by using npm (the recommended way):
 
