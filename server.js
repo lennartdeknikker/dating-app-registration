@@ -5,7 +5,7 @@ const request = require('request');
 const multer = require('multer');
 const session = require('express-session');
 
-const userId = "5cf510cb1c9d440000298a75";
+const userId = "5cf6b9b91c9d440000db960b";
 
 // Multer
 const storage = multer.diskStorage({
@@ -100,7 +100,7 @@ function login(req, res) {
 
 function logout(req, res) {
     req.session.destroy();
-    res.send("logout success!");
+    res.redirect('/login');
 }
 
 function home(req, res) {

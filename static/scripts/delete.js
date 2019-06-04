@@ -26,3 +26,13 @@ function onremove(ev) {
 
 
 }
+
+var logout = document.getElementById('js-logout');
+
+if (logout) {
+    logout.addEventListener('click', onlogout);
+}
+
+function onlogout() {
+    window.location = '/logout';
+}
