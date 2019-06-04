@@ -40,10 +40,10 @@ mongo.MongoClient.connect(url, {
 /* Authentication and Authorization Middleware
 source: https://www.codexpedia.com/node-js/a-very-basic-session-auth-in-node-js-with-express-js/ */
 var auth = function (req, res, next) {
-    if (req.session && req.session.user === "len" && req.session.admin)
+    if (req.session && req.session.user === "lennartdeknikker" && req.session.admin)
         return next();
     else
-    res.redirect('/login');
+        res.redirect('/login');
 };
 
 // express setup
@@ -86,13 +86,22 @@ function loginPage(req, res) {
 }
 
 function login(req, res) {
+    db.collection('login').find({
+        username: req.body.username
+    }).toArray(done);
 
-    if (!req.body.username || !req.body.password) {
-        res.send('login failed');
-    } else if (req.body.username === "len" && req.body.password === "lennart") {
-        req.session.user = "len";
-        req.session.admin = true;
-        res.redirect('/');
+    function done(err, data) {
+        console.log(data);
+        if (!req.body.username || !req.body.password) {
+            res.send('login failed');
+        } else if (err) {
+            next(err);
+        } else if (data[0].password === req.body.password) {
+            req.session.user = req.body.username;
+            req.session.information_id = data[0].information_id;
+            req.session.admin = true;
+            res.redirect('/');
+        }
     }
 }
 
