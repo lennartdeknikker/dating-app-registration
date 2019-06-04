@@ -1,14 +1,14 @@
-// required modules
+// REQUIRED MODULES
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const multer = require('multer');
 const session = require('express-session');
 
+// GLOBAL VARIABLES
 const userId = "5cf6bef51c9d440000db960c";
-let userAvailability = true;
 
-// Multer
+// MULTER SETUP (for uploading images)
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './static/upload');
@@ -23,7 +23,7 @@ const upload = multer({
 
 require('dotenv').config();
 
-// mongoDB setup
+// MONGODB SETUP
 const mongo = require('mongodb');
 let db = null;
 const url = 'mongodb+srv://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@profiles-ttwoc.mongodb.net/test?retryWrites=true';
@@ -37,7 +37,7 @@ mongo.MongoClient.connect(url, {
     db = client.db(process.env.DB_NAME);
 });
 
-/* Authentication and Authorization Middleware
+/* AUTHENTICATION MIDDLEWARE
 source: https://www.codexpedia.com/node-js/a-very-basic-session-auth-in-node-js-with-express-js/ */
 function auth(req, res, next) {
     if (req.session && req.session.user === "lennartdeknikker" && req.session.admin)
@@ -63,7 +63,7 @@ function auth(req, res, next) {
 }
 } */
 
-// express setup
+// EXPRESS ROUTING SETUP
 express()
     .set('view engine', 'ejs')
     .use(express.static(__dirname + '/static'))
@@ -90,11 +90,13 @@ express()
     .get('/available', auth, available)
     .get('*', pageNotFound)
     .listen(process.env.PORT, function () {
-        console.log('listening on port 8080');
+        console.log('listening on port: ' + process.env.PORT);
     });
 
 
-// functions for rendering pages
+// GET ROUTE FUNCTIONS
+
+// Login
 function loginPage(req, res) {
 
     res.render('pages/login', {
@@ -102,37 +104,21 @@ function loginPage(req, res) {
     });
 }
 
-function login(req, res) {
-    db.collection('login').find({
-        username: req.body.username
-    }).toArray(done);
-
-    function done(err, data) {
-        if (!req.body.username || !req.body.password) {
-            res.send('login failed');
-        } else if (err) {
-            next(err);
-        } else if (data[0].password === req.body.password) {
-            req.session.user = req.body.username;
-            req.session.information_id = data[0].information_id;
-            req.session.admin = true;
-            res.redirect('/');
-        }
-    }
-}
-
-function logout(req, res) {
-    req.session.destroy();
-    res.redirect('/login');
-}
-
+// Home
 function home(req, res) {
-    userAvailability = false;
     res.render('pages/index', {
-        userAvailability: userAvailability
+        userAvailability: false
     });
 }
 
+// Available
+function available(req, res) {
+    res.render('pages/index', {
+        userAvailability: true
+    });
+}
+
+// Profile
 function profile(req, res) {
     const headerText = "My Profile";
     const backLink = "/";
@@ -154,11 +140,12 @@ function profile(req, res) {
     }
 }
 
+// Information
 function information(req, res, next) {
     let dogBreeds = [""];
     let catBreeds = [""];
 
-    // request dog breeds from an external API and save them as an array in 'dogBreeds'.
+    // Request dog breeds from an external API and save them as an array in 'dogBreeds'.
     request('https://dog.ceo/api/breeds/list/all', function (error, response, body) {
         if (!error && response.statusCode == 200) {
             console.log('statusCode external Dog API request:', response && response.statusCode);
@@ -175,7 +162,7 @@ function information(req, res, next) {
         }
     });
 
-    // request cat breeds from an external API and save them as an array in 'catBreeds'.
+    // Request cat breeds from an external API and save them as an array in 'catBreeds'.
     function getCats() {
         request('https://api.thecatapi.com/v1/breeds', {
                 'x-api-key': process.env.API_KEY_CATBREEDS
@@ -197,13 +184,13 @@ function information(req, res, next) {
             });
     }
 
-    // get User Info from MongoDB
+    // Get User Info from MongoDB,
     function getInformation() {
         db.collection('information').find({
             _id: new mongo.ObjectID(userId)
         }).toArray(done);
 
-        // then render the page
+        // then render the page.
         function done(err, data) {
             if (err) {
                 next(err);
@@ -221,6 +208,81 @@ function information(req, res, next) {
 
 }
 
+// Picture
+function picture(req, res) {
+    db.collection('information').find({
+        _id: new mongo.ObjectID(userId)
+    }).toArray(done);
+
+    function done(err, data) {
+        if (err) {
+            next(err);
+        } else {
+            res.render('pages/picture', {
+                headerText: "Change picture",
+                backLink: "/profile",
+                profilePictureUrl: data[0].profilePictureUrl
+            });
+        }
+    }
+}
+
+// Settings
+function settings(req, res) {
+    const headerText = "Settings";
+    const backLink = "/profile";
+    db.collection('information').find({
+        _id: new mongo.ObjectID(userId)
+    }).toArray(done);
+
+    function done(err, data) {
+        if (err) {
+            next(err);
+        } else {
+            res.render('pages/settings', {
+                headerText: headerText,
+                backLink: backLink,
+                id: data[0]._id
+            });
+        }
+    }
+}
+
+
+// 404
+function pageNotFound(req, res) {
+    res.status(404).render('pages/404');
+}
+
+// POST ROUTE FUNCTIONS
+
+// Login
+function login(req, res) {
+    db.collection('login').find({
+        username: req.body.username
+    }).toArray(done);
+
+    function done(err, data) {
+        if (!req.body.username || !req.body.password) {
+            res.send('login failed');
+        } else if (err) {
+            next(err);
+        } else if (data[0].password === req.body.password) {
+            req.session.user = req.body.username;
+            req.session.information_id = data[0].information_id;
+            req.session.admin = true;
+            res.redirect('/');
+        }
+    }
+}
+
+// Logout
+function logout(req, res) {
+    req.session.destroy();
+    res.redirect('/login');
+}
+
+// Save information
 function saveInformation(req, res, next) {
     let savedData = req.body;
     if (savedData.animal === "dog") {
@@ -244,25 +306,7 @@ function saveInformation(req, res, next) {
     }
 }
 
-function picture(req, res) {
-    db.collection('information').find({
-        _id: new mongo.ObjectID(userId)
-    }).toArray(done);
-
-    // then render the page
-    function done(err, data) {
-        if (err) {
-            next(err);
-        } else {
-            res.render('pages/picture', {
-                headerText: "Change picture",
-                backLink: "/profile",
-                profilePictureUrl: data[0].profilePictureUrl
-            });
-        }
-    }
-}
-
+// Save profile picture
 function savePicture(req, res) {
     db.collection('information').updateOne({
         _id: new mongo.ObjectID(userId)
@@ -281,37 +325,9 @@ function savePicture(req, res) {
     }
 }
 
-function settings(req, res) {
-    const headerText = "Settings";
-    const backLink = "/profile";
-    db.collection('information').find({
-        _id: new mongo.ObjectID(userId)
-    }).toArray(done);
+// DELETE ROUTE FUNCTIONS
 
-    function done(err, data) {
-        if (err) {
-            next(err);
-        } else {
-            res.render('pages/settings', {
-                headerText: headerText,
-                backLink: backLink,
-                id: data[0]._id
-            });
-        }
-    }
-}
-
-function available(req, res) {
-    userAvailability = true;
-    res.render('pages/index', {
-        userAvailability: userAvailability
-    });
-}
-
-function pageNotFound(req, res) {
-    res.status(404).send('The requested page does not exist.');
-}
-
+// Remove profile from database.
 function remove(req, res) {
     var id = req.params.id;
     console.log(id);

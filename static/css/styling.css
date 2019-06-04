@@ -73,6 +73,19 @@ h2 {
     height: 1em;
 }
 
+h3 {
+    color: #d0006f;
+    font-size: 10em;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+h4 {
+    text-align: center;
+    color: #424242;
+    font-size: 2em;
+}
+
 .logo-container {
     display: flex;
     justify-content: center;
