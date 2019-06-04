@@ -5,7 +5,7 @@ const request = require('request');
 const multer = require('multer');
 const session = require('express-session');
 
-const userId = "5cf506d01c9d44000032e8f4";
+const userId = "5cf510cb1c9d440000298a75";
 
 // Multer
 const storage = multer.diskStorage({
@@ -36,7 +36,8 @@ mongo.MongoClient.connect(url, {
     db = client.db(process.env.DB_NAME);
 });
 
-// Authentication and Authorization Middleware
+/* Authentication and Authorization Middleware
+source: https://www.codexpedia.com/node-js/a-very-basic-session-auth-in-node-js-with-express-js/ */
 var auth = function (req, res, next) {
     if (req.session && req.session.user === "len" && req.session.admin)
         return next();
