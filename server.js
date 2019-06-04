@@ -5,7 +5,8 @@ const request = require('request');
 const multer = require('multer');
 const session = require('express-session');
 
-const userId = "5cf6b9b91c9d440000db960b";
+const userId = "5cf6bef51c9d440000db960c";
+let userAvailability = true;
 
 // Multer
 const storage = multer.diskStorage({
@@ -44,9 +45,6 @@ var auth = function (req, res, next) {
     else
     res.redirect('/login');
 };
-
-// global variables
-let userAvailability = true;
 
 // express setup
 express()
