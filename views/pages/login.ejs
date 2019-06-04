@@ -6,7 +6,7 @@
         <section class="logo-container">
             <img src="images/logo_full.png" alt="logo" class="logo">
         </section>
-        <form action="POST" class="form-login">
+        <form action="/login" method="POST" class="form-login">
             <fieldset>
                 <div>
                     <label for="username">Username:</label>
@@ -16,6 +16,9 @@
                     <label for="password">Password:</label>
                     <input type="text" name="password" id="password">
                 </div>
+            </fieldset>
+            <fieldset class="fieldset-save">
+                <button type="submit" value="submit" class="save-button">Log In</button>
             </fieldset>
         </form>
 

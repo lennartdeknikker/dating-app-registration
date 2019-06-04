@@ -82,7 +82,7 @@ h2 {
 }
 
 .logo {
-    width: 20em;
+    width: 80%;
 }
 
 .activity-icons {
@@ -206,7 +206,7 @@ form {
 .form-login {
     height: 100%;
     padding-top: 2em;
-    width: 80%;
+    width: 100%;
     align-self: center;
 }
 
