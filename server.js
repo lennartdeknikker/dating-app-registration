@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const multer = require('multer');
+const session = require('express-session');
 
 const userId = "5cf506d01c9d44000032e8f4";
 
@@ -12,7 +13,7 @@ const storage = multer.diskStorage({
         cb(null, './static/upload');
     },
     filename: function (req, file, cb) {
-        cb(null, userId+'.jpg');
+        cb(null, userId + '.jpg');
     }
 });
 const upload = multer({
@@ -35,7 +36,15 @@ mongo.MongoClient.connect(url, {
     db = client.db(process.env.DB_NAME);
 });
 
-// global letiables
+// Authentication and Authorization Middleware
+var auth = function (req, res, next) {
+    if (req.session && req.session.user === "len" && req.session.admin)
+        return next();
+    else
+    res.redirect('/login');
+};
+
+// global variables
 let userAvailability = true;
 
 // express setup
@@ -46,26 +55,51 @@ express()
     .use(bodyParser.urlencoded({
         extended: true
     }))
-    .get('/', home)
-    .get('/login', login)
-    .get('/profile', profile)
-    .get('/information', information)
-    .post('/information', saveInformation)
-    .get('/picture', picture)
-    .post('/picture', upload.single('profilePicture'), savePicture)
-    .get('/settings', settings)
-    .delete('/settings/:id', remove)
-    .get('/available', available)
+    .use(session({
+        secret: '2C44-4D44-WppQ38S',
+        resave: true,
+        saveUninitialized: true
+    }))
+    .get('/', auth, home)
+    .get('/login', loginPage)
+    .post('/login', login)
+    .get('/logout', logout)
+    .get('/profile', auth, profile)
+    .get('/information', auth, information)
+    .post('/information', auth, saveInformation)
+    .get('/picture', auth, picture)
+    .post('/picture', auth, upload.single('profilePicture'), savePicture)
+    .get('/settings', auth, settings)
+    .delete('/settings/:id', auth, remove)
+    .get('/available', auth, available)
     .get('*', pageNotFound)
     .listen(process.env.PORT, function () {
         console.log('listening on port 8080');
     });
 
+
 // functions for rendering pages
-function login(req, res) {
+function loginPage(req, res) {
+
     res.render('pages/login', {
         headerText: "Log In"
     });
+}
+
+function login(req, res) {
+
+    if (!req.body.username || !req.body.password) {
+        res.send('login failed');
+    } else if (req.body.username === "len" && req.body.password === "lennart") {
+        req.session.user = "len";
+        req.session.admin = true;
+        res.redirect('/');
+    }
+}
+
+function logout(req, res) {
+    req.session.destroy();
+    res.send("logout success!");
 }
 
 function home(req, res) {
@@ -78,7 +112,9 @@ function home(req, res) {
 function profile(req, res) {
     const headerText = "My Profile";
     const backLink = "/";
-    db.collection('information').find({ _id: new mongo.ObjectID(userId)}).toArray(done);
+    db.collection('information').find({
+        _id: new mongo.ObjectID(userId)
+    }).toArray(done);
 
     function done(err, data) {
         if (err) {
@@ -139,7 +175,9 @@ function information(req, res, next) {
 
     // get User Info from MongoDB
     function getInformation() {
-        db.collection('information').find({ _id: new mongo.ObjectID(userId)}).toArray(done);
+        db.collection('information').find({
+            _id: new mongo.ObjectID(userId)
+        }).toArray(done);
 
         // then render the page
         function done(err, data) {
@@ -183,7 +221,9 @@ function saveInformation(req, res, next) {
 }
 
 function picture(req, res) {
-    db.collection('information').find({ _id: new mongo.ObjectID(userId)}).toArray(done);
+    db.collection('information').find({
+        _id: new mongo.ObjectID(userId)
+    }).toArray(done);
 
     // then render the page
     function done(err, data) {
@@ -220,7 +260,9 @@ function savePicture(req, res) {
 function settings(req, res) {
     const headerText = "Settings";
     const backLink = "/profile";
-    db.collection('information').find({ _id: new mongo.ObjectID(userId)}).toArray(done);
+    db.collection('information').find({
+        _id: new mongo.ObjectID(userId)
+    }).toArray(done);
 
     function done(err, data) {
         if (err) {
@@ -257,7 +299,9 @@ function remove(req, res) {
         if (err) {
             next(err);
         } else {
-            res.json({status: 'ok'});
+            res.json({
+                status: 'ok'
+            });
         }
     }
 }
