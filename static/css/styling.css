@@ -65,12 +65,13 @@ nav a:nth-child(2) img {
     justify-content: space-between;
 }
 
-h2 {
+h2, legend {
     font-size: 1.2em;
     text-align: center;
     width: 100%;
     margin: 0 0 .5em;
     height: 1em;
+    font-weight: bold;
 }
 
 h3 {
